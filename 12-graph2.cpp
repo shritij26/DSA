@@ -33,6 +33,9 @@ void topologicalsort(vector<vector<int>> &edges, int v, int e) // e is no. of ed
     }
     // topo sort is stored in the stack s
 }
+
+// DFS your dreams, BFS your opportunities
+
 void topoSortUsingDFS(int node, unordered_map<int, bool> &visited, stack<int> &s, unordered_map<int, list<int>> &adj)
 {
     visited[node] = 1;
