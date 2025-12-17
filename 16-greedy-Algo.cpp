@@ -113,7 +113,7 @@ int main()
     cout << "Greedy fails here because it does not give the minimum number of coins.\n";
 }
 
-/*
+/* hh
 Summary:
 - Greedy algorithms are simple and fast.
 - They work best when the problem has the greedy-choice property.
