@@ -106,9 +106,94 @@ int KadaneAlgo()
 
 /*****************************************************************************************************************************/
 
+// NEXT PERMUTATION
+
+/*
+Theory:
+Next Permutation is used to find the next lexicographically greater arrangement
+of elements in an array.
+
+Working:
+1. Traverse from right and find the first index 'i' such that arr[i] < arr[i+1].
+   This is called the breakpoint.
+2. If no breakpoint exists, reverse the entire array because it is the last permutation.
+3. Traverse from the right again and find the first element greater than arr[i].
+4. Swap arr[i] with that element.
+5. Reverse the part of the array after index i.
+6. The resulting array is the next permutation.
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+*/
+
+int NextPermutation()
+{
+    int n;
+    cin >> n;
+
+    vector<int> arr(n);
+
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+    }
+
+    int index = -1;
+
+    // Find breakpoint
+    for (int i = n - 2; i >= 0; i--)
+    {
+        if (arr[i] < arr[i + 1])
+        {
+            index = i;
+            break;
+        }
+    }
+
+    // Last permutation
+    if (index == -1)
+    {
+        reverse(arr.begin(), arr.end());
+
+        cout << "Next Permutation: ";
+        for (int x : arr)
+        {
+            cout << x << " ";
+        }
+        cout << endl;
+
+        return 0;
+    }
+
+    // Find element just greater than arr[index]
+    for (int i = n - 1; i > index; i--)
+    {
+        if (arr[i] > arr[index])
+        {
+            swap(arr[i], arr[index]);
+            break;
+        }
+    }
+
+    // Reverse remaining part
+    reverse(arr.begin() + index + 1, arr.end());
+
+    cout << "Next Permutation: ";
+    for (int x : arr)
+    {
+        cout << x << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+
+/*****************************************************************************************************************************/
+
 int main()
 {
     // MooreVoting();
-    KadaneAlgo();
+    // KadaneAlgo();
+    // NextPermutation();
     return 0;
 }
