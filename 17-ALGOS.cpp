@@ -190,10 +190,47 @@ int NextPermutation()
 
 /*****************************************************************************************************************************/
 
+// SIEVE OF ERATOSTHENES
+
+/* Theory: The Sieve of Eratosthenes is an ancient algorithm for finding all prime numbers up to a given limit. It works
+ by iteratively marking the multiples of each prime number as composite. */
+
+int SieveOfEratosthenes(int n)
+{
+    vector<bool> prime(n + 1, true);
+    prime[0] = prime[1] = false;
+
+    for (int i = 2; i * i <= n; i++)
+    {
+        if (prime[i])
+        {
+            for (int j = i * i; j <= n; j += i)
+            {
+                prime[j] = false;
+            }
+        }
+    }
+
+    cout << "Prime numbers up to " << n << ": ";
+    for (int i = 2; i <= n; i++)
+    {
+        if (prime[i])
+        {
+            cout << i << " ";
+        }
+    }
+    cout << endl;
+
+    return 0;
+}
+
+/*****************************************************************************************************************************/ 
+
 int main()
 {
     // MooreVoting();
     // KadaneAlgo();
     // NextPermutation();
+    // SieveOfEratosthenes();
     return 0;
 }
