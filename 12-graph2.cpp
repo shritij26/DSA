@@ -72,7 +72,6 @@ vector<int> toposortUsingBFS(vector<vector<int>> &edges, int v, int e)
     {
         for (auto j : i.second)
             indegree[j]++;
-        ;
     }
 
     // push the the node with 0 indegree
