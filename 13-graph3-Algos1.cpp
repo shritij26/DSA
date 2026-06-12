@@ -2,6 +2,7 @@
 #include <vector>
 #include <queue>
 #include <utility>
+#include <set>
 #include <limits>
 using namespace std;
 
@@ -51,6 +52,51 @@ void DIJSKTRA(int V, vector<vector<pair<int, int>>> &adj, int src)
     for (int i = 0; i < V; ++i)
         cout << i << "\t" << dist[i] << "\n";
     cout << "***********************************" << endl;
+}
+
+// Dijkstra using Set
+// Set stores vertices in sorted order of distance.
+// Old distance entry is removed before inserting the updated one.
+// Time Complexity: O((V + E) log V)
+
+void DIJKSTRA_SET(int V, vector<vector<pair<int, int>>> &adj, int src)
+{
+    vector<int> dist(V, numeric_limits<int>::max());
+
+    set<pair<int, int>> st; // {distance, node}
+
+    dist[src] = 0;
+    st.insert({0, src});
+
+    while (!st.empty())
+    {
+        auto it = st.begin();
+
+        int d = it->first;
+        int u = it->second;
+
+        st.erase(it);
+
+        for (auto &neighbour : adj[u])
+        {
+            int v = neighbour.first;
+            int weight = neighbour.second;
+
+            if (d + weight < dist[v])
+            {
+                if (dist[v] != numeric_limits<int>::max())
+                    st.erase({dist[v], v}); // Remove old distance entry if it exists
+
+                dist[v] = d + weight;
+                st.insert({dist[v], v});
+            }
+        }
+    }
+    cout << "Vertex\tDistance from Source\n";
+
+    for (int i = 0; i < V; i++)
+        cout << i << "\t" << dist[i] << "\n";
+
 }
 
 // Prim's Algorithm: Finds Minimum Spanning Tree (MST) of a graph
@@ -136,6 +182,8 @@ int main() {
     cin >> src;
 
     DIJSKTRA(V, adj, src);
+
+    DIJKSTRA_SET(V, adj, src);
 
     PRIM(V, adj, src);
 
