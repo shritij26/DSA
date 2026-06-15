@@ -224,7 +224,183 @@ int SieveOfEratosthenes(int n)
     return 0;
 }
 
+/*****************************************************************************************************************************/
+
+// BELLMAN-FORD ALGORITHM
+
+/*
+Theory:
+Bellman-Ford Algorithm is used to find the shortest distance from a source node
+to all other nodes in a graph.
+
+Unlike Dijkstra's Algorithm, Bellman-Ford works even when the graph contains
+negative edge weights.
+
+Why Bellman-Ford?
+1. Handles negative edge weights.
+2. Detects negative weight cycles.
+3. Works for both directed and undirected graphs.
+
+Where Dijkstra Fails:
+If a graph contains negative edges or a negative cycle, Dijkstra may produce
+incorrect results because it assumes once a node gets the shortest distance,
+it will never improve.
+
+Negative Cycle:
+A cycle whose total edge weight is negative. Traversing such a cycle repeatedly
+keeps reducing the path cost indefinitely.
+
+Intuition:
+1. Initialize source distance as 0 and all others as infinity.
+2. Relax all edges V-1 times.
+3. Relaxation means updating a node's distance if a shorter path is found.
+4. After V-1 iterations, shortest paths are guaranteed.
+5. Perform one more relaxation.
+6. If any distance still decreases, a negative cycle exists.
+
+Time Complexity: O(V * E)
+Space Complexity: O(V)
+*/
+
+int BellmanFord()
+{
+    int V, E;
+    cin >> V >> E;
+
+    vector<vector<int>> edges;
+
+    for (int i = 0; i < E; i++)
+    {
+        int u, v, wt;
+        cin >> u >> v >> wt;
+        edges.push_back({u, v, wt});
+    }
+
+    int S;
+    cin >> S;
+
+    vector<int> dist(V, 1e8);
+    dist[S] = 0;
+
+    for (int i = 0; i < V - 1; i++)
+    {
+        for (auto it : edges)
+        {
+            int u = it[0];
+            int v = it[1];
+            int wt = it[2];
+
+            if (dist[u] != 1e8 && dist[u] + wt < dist[v])
+            {
+                dist[v] = dist[u] + wt;
+            }
+        }
+    }
+
+    for (auto it : edges)
+    {
+        int u = it[0];
+        int v = it[1];
+        int wt = it[2];
+
+        if (dist[u] != 1e8 && dist[u] + wt < dist[v])
+        {
+            cout << "Negative Weight Cycle Detected" << endl;
+            return 0;
+        }
+    }
+
+    cout << "Shortest Distances from Source " << S << ": ";
+    for (int d : dist)
+    {
+        cout << d << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+
+/*****************************************************************************************************************************/
+
+// FLOYD-WARSHALL ALGORITHM
+
+/*
+Theory:
+Floyd-Warshall Algorithm is used to find the shortest distance between every
+pair of nodes in a graph.
+
+Unlike Dijkstra and Bellman-Ford, it finds shortest paths between ALL pairs
+of nodes, not just from one source.
+
+Intuition:
+1. Start with the given distance matrix.
+2. Treat every node as an intermediate node one by one.
+3. Check if going through that node gives a shorter path.
+4. Update the distance if a shorter path is found.
+5. After considering all nodes, the matrix contains shortest distances
+   between every pair of nodes.
+
+Time Complexity: O(V^3)
+Space Complexity: O(V^2)
+*/
+
+int FloydWarshall()
+{
+    int n;
+    cin >> n;
+
+    vector<vector<int>> matrix(n, vector<int>(n));
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            cin >> matrix[i][j];
+        }
+    }
+
+    for (int k = 0; k < n; k++)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (matrix[i][k] == -1 || matrix[k][j] == -1)
+                {
+                    continue;
+                }
+
+                if (matrix[i][j] == -1)
+                {
+                    matrix[i][j] = matrix[i][k] + matrix[k][j];
+                }
+                else
+                {
+                    matrix[i][j] = min(matrix[i][j],
+                                       matrix[i][k] + matrix[k][j]);
+                }
+            }
+        }
+    }
+
+    cout << "Shortest Distance Matrix:" << endl;
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+
 /*****************************************************************************************************************************/ 
+
+
+
 
 int main()
 {
@@ -232,5 +408,7 @@ int main()
     // KadaneAlgo();
     // NextPermutation();
     // SieveOfEratosthenes();
+    // BellmanFord();
+    // FloydWarshall();
     return 0;
 }
