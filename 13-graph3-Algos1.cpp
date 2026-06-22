@@ -232,6 +232,8 @@ Note:
 - E = number of edges  
 ----------------------------------------------- */
 
+
+// PRIM'S ALGORITHM
 int spanningTree(int V, vector<vector<int>> adj[])
 	{
 		priority_queue<pair<int, int>,
