@@ -13,7 +13,6 @@ using namespace std;
 3)Maximum/minimum subarray where <condition> is satisfied
 */
 
-
 int longestSubarrayWithSumlessThanK(vector<int> arr, int k)
 {
     int n = arr.size();
@@ -54,6 +53,34 @@ int longestSubarrayWithSumlessThanKOPTIMAL(vector<int> arr, int k)
         end++; // expand the window
     }
     return maxLength;
+}
+
+/*************************************************************************/
+int numofSubarraysWithSumK(vector<int> &nums, int goal)
+{
+    return atMost(nums, goal) - atMost(nums, goal - 1);
+}
+int atMost(vector<int> &nums, int goal)
+{
+    if (goal < 0)
+        return 0;
+
+    int n = nums.size();
+    int l = 0, r = 0;
+    int sum = 0, count = 0;
+    while (r < n)
+    {
+        sum += nums[r];
+        while (sum > goal)
+        {
+            sum -= nums[l];
+            l++;
+        }
+        count += (r - l + 1);
+        r++;
+    }
+
+    return count;
 }
 
 int main()
