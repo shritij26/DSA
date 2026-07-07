@@ -39,16 +39,16 @@ e) Implement base cases.
 ------------------------------
 
 A) Fibonacci Numbers
----------------------   
+---------------------
 // Top-Down (Memoization)
 #include <iostream>
 #include <vector>
 using namespace std;
 
 int fib(int n, vector<int>& dp) {
-    if (n <= 1) 
+    if (n <= 1)
         return n;
-    if (dp[n] != -1) 
+    if (dp[n] != -1)
         return dp[n];
     return dp[n] = fib(n-1, dp) + fib(n-2, dp);
 }
@@ -129,3 +129,28 @@ int main() {
 - If subproblems are not overlapping.
 - If optimal substructure does not exist.
 */
+#include <iostream>
+#include <vector>
+using namespace std;
+
+
+//lcs - longest common subsequence
+int lcs(string s1, string s2)
+{
+    int n = s1.size();
+    int m = s2.size();
+
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= m; j++)
+        {
+            if (s1[i - 1] == s2[j - 1])
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+            else
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+        }
+    }
+
+    return dp[n][m];
+}
