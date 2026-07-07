@@ -397,10 +397,29 @@ int FloydWarshall()
     return 0;
 }
 
-/*****************************************************************************************************************************/ 
+/*****************************************************************************************************************************/
 
+// Subarray sum equal to k
 
+int subarraySum(vector<int> &nums, int k)
+{
+    unordered_map<int, int> prefixSumCount;
+    prefixSumCount[0] = 1;
+    int prefix = 0;
+    int cnt = 0;
+    for (int i = 0; i < nums.size(); i++)
+    {
+        prefix = prefix + nums[i];
+        if (prefixSumCount.find(k) != prefixSumCount.end())
+        {
+            cnt = cnt + prefixSumCount[k];
+        }
+        prefixSumCount[prefix]++;
+    }
+    return cnt;
+}
 
+/*****************************************************************************************************************************/
 
 int main()
 {
@@ -410,5 +429,6 @@ int main()
     // SieveOfEratosthenes();
     // BellmanFord();
     // FloydWarshall();
+    // subarraySum();
     return 0;
 }
